@@ -14,12 +14,11 @@ const API_SECRET = process.env.API_SECRET;
 
 // Configure Cloudinary with your credentials
 cloudinary.config({
-    cloud_name: CLOUD_NAME,
-    api_key: API_KEY,
-    api_secret: API_SECRET,
+    cloud_name: 'djocjzlgt', 
+    api_key: '215754899971461',    
+    api_secret: 'hdc3vkUzovFQF5-Fqy016pK5q9A', // Inga oru vaati verify pannunga
     secure: true
 });
-
 // Set up Express app and Multer for file handling
 const app = express();
 const upload = multer({ dest: 'temp_uploads/' }); 
