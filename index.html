@@ -131,30 +131,36 @@
             white-space: nowrap;
         }
 
-        /* Premium Gold Buttons Styling with Stable Glow */
+        /* REFIXED METALLIC GOLD BUTTON - NO DARK FADING */
         .btn-gold {
-            background: linear-gradient(135deg, #e6b800, #b38f00);
+            background: linear-gradient(to right, #fff5b3 0%, #ffcc00 50%, #e6a100 100%);
             color: #0d0d0d;
             border: none;
             padding: 14px;
             width: 100%;
             border-radius: 6px;
             font-size: 1.05rem;
-            font-weight: 700;
+            font-weight: 800;
             cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 0 12px rgba(230, 184, 0, 0.4);
-            letter-spacing: 0.5px;
-        }
-        .btn-gold:hover {
-            opacity: 0.95;
-            box-shadow: 0 0 18px rgba(230, 184, 0, 0.6);
-        }
-        .btn-gold:active {
-            transform: scale(0.98);
+            box-shadow: 0 4px 15px rgba(230, 184, 0, 0.3);
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+            outline: none;
+            transition: transform 0.1s ease, box-shadow 0.2s ease;
         }
 
-        /* Professional Footer for Credits with Perfect Balanced Glow */
+        .btn-gold:hover {
+            box-shadow: 0 6px 20px rgba(230, 184, 0, 0.5);
+            transform: translateY(-1px);
+        }
+
+        .btn-gold:active {
+            transform: scale(0.97);
+            background: linear-gradient(to right, #ffffff 0%, #fff2a3 60%, #ffcc00 100%);
+            box-shadow: 0 0 25px #e6b800, inset 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Professional Footer for Credits with Balanced Glow */
         footer {
             text-align: center;
             padding: 25px;
@@ -163,11 +169,19 @@
             margin-top: auto;
             width: 100%;
             letter-spacing: 0.5px;
+            line-height: 1.6;
         }
         footer span {
             color: #e6b800;
             font-weight: 700;
             text-shadow: 0 0 12px rgba(230, 184, 0, 0.5);
+        }
+        footer .dept-label {
+            display: block;
+            font-size: 0.85rem;
+            color: #555555;
+            font-weight: 500;
+            margin-top: 2px;
         }
 
         /* Dynamic Section Visibility Logic Classes */
@@ -260,6 +274,7 @@
         <div class="form-group">
             <label>Select Programme / Course</label>
             <select id="dept-select">
+                <option value="">-- Choose Programme / Course --</option>
                 <option value="B.Sc. Computer Science">B.Sc. Computer Science</option>
                 <option value="B.Sc. Computer Science & Applications">B.Sc. Computer Science & Applications</option>
                 <option value="B.Sc. Computer Science (AI & Data Science)">B.Sc. Computer Science (AI & Data Science)</option>
@@ -289,6 +304,7 @@
         <div class="form-group">
             <label>Select Current Academic Year</label>
             <select id="year-select">
+                <option value="">-- Choose Academic Year --</option>
                 <option value="I Year">I Year</option>
                 <option value="II Year">II Year</option>
                 <option value="III Year">III Year</option>
@@ -351,12 +367,25 @@
 
     <footer>
         Maintained & Designed by: <span>KISHORE S</span>
+        <span class="dept-label">III B.Sc. Computer Science</span>
     </footer>
 
     <script>
         function goToStep2() {
             var selectedDept = document.getElementById("dept-select").value;
             var selectedYear = document.getElementById("year-select").value;
+
+            // ✨ STEP 1 STRICT EMBEDDED CHECK VALIDATION SYSTEM
+            if (!selectedDept) {
+                alert("Validation Error: Please select a valid Programme / Course before proceeding!");
+                document.getElementById("dept-select").focus();
+                return;
+            }
+            if (!selectedYear) {
+                alert("Validation Error: Please select your Academic Year before proceeding!");
+                document.getElementById("year-select").focus();
+                return;
+            }
 
             document.getElementById("badge-info").innerText = "Target Path: " + selectedDept + " | " + selectedYear;
 
@@ -382,27 +411,23 @@
         }
 
         function handleFormSubmit(event) {
-            // JavaScript custom form error checker implementation pipeline
             var studentName = document.getElementById("student-name").value.trim();
             var certificateName = document.getElementById("cert-name").value.trim();
             var rollNumber = document.getElementById("roll-number").value.trim();
             var fileInput = document.getElementById("real-file-input");
 
-            // Strict blank field check validation engine triggers
             if (!studentName || !certificateName || !rollNumber) {
-                // Let browser handle native alerts if any HTML validation is bypassed
                 return; 
             }
 
-            // Custom validation logic check for file selector input
             if (fileInput.files.length === 0) {
-                event.preventDefault(); // Stop form transition loop
+                event.preventDefault();
                 alert("Validation Error: Please select a valid Certificate File before uploading!");
                 document.getElementById("custom-file-box").style.borderColor = "#ff3333";
                 return;
             }
 
-            event.preventDefault(); // Valid aana aprom smooth load trigger panrom
+            event.preventDefault();
             document.getElementById("custom-file-box").style.borderColor = "#444444";
 
             document.getElementById("step2-container").classList.add("hidden");
@@ -418,6 +443,10 @@
 
         function closeSuccessReset() {
             document.getElementById("upload-main-form").reset();
+            // Reset Step 1 dropdown configuration values manually
+            document.getElementById("dept-select").value = "";
+            document.getElementById("year-select").value = "";
+            
             document.getElementById("file-custom-text").innerText = "No file chosen";
             document.getElementById("file-custom-text").style.color = "#8c8c8c";
 
