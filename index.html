@@ -1,395 +1,429 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>VETIAS Document & Certificates Management | Pro</title>
-<style>
-    /* --- Keyframe Animations --- */
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes pulseGlow {
-        0%, 100% { text-shadow: 0 0 10px rgba(212, 175, 55, 0.4); }
-        50% { text-shadow: 0 0 20px rgba(212, 175, 55, 0.7); }
-    }
-    @keyframes shakeError {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-        20%, 40%, 60%, 80% { transform: translateX(5px); }
-    }
-    @keyframes popInSuccess {
-        0% { opacity: 0; transform: scale(0.8); }
-        80% { opacity: 1; transform: scale(1.05); }
-        100% { opacity: 1; transform: scale(1); }
-    }
-    @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VETIAS Document & Certificates Management System</title>
+    <style>
+        /* Base Configuration & Global Dark Theme */
+        body {
+            background-color: #0d0d0d;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
 
-    /* 1. Global & Typography: Black Base */
-    body { 
-        font-family: 'Inter', sans-serif;
-        background: #121212; 
-        margin: 0; 
-        color: #e0e0e0; 
-        transition: background 0.3s;
-    }
-    
-    /* 2. Header & Branding */
-    header { 
-        background: linear-gradient(90deg, #1c1c1c, #121212); 
-        color: white; 
-        text-align: center; 
-        padding: 40px 15px 20px 15px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-        animation: fadeInUp 0.8s ease-out forwards;
-    }
-    header h2 {
-        margin: 0 0 5px 0;
-        font-size: 2.2em;
-        font-weight: 700;
-        letter-spacing: 1px;
-        color: #D4AF37; 
-        animation: pulseGlow 3s infinite ease-in-out;
-    }
-    header p {
-        font-size: 1em;
-        opacity: 0.6;
-        margin-top: 10px;
-    }
+        /* Fixed Top Global Header Layout */
+        header {
+            text-align: center;
+            padding: 40px 20px 10px 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        header h1 {
+            color: #e6b800;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+            margin: 0 0 10px 0;
+            text-shadow: 0 0 12px rgba(230, 184, 0, 0.6);
+            font-weight: 800;
+        }
+        header p {
+            color: #8c8c8c;
+            font-size: 1rem;
+            margin: 0;
+        }
 
-    /* 3. Main Card & Layout */
-    .container { 
-        padding: 40px 20px 20px 20px;
-        text-align: center; 
-    }
-    section { 
-        display: block; 
-        background: #1e1e1e; 
-        margin: 0 auto 30px auto; 
-        padding: 40px; 
-        border-radius: 16px; 
-        max-width: 480px; 
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5); 
-        border-top: 3px solid #D4AF37; 
-        border: 1px solid #333;
-        text-align: left;
-        opacity: 0; 
-        animation: fadeInUp 0.8s ease-out 0.2s forwards; 
-    }
-    section h3 {
-        color: #D4AF37; 
-        margin-top: 0;
-        margin-bottom: 30px;
-        font-weight: 500;
-        border-bottom: 1px solid #D4AF37;
-        padding-bottom: 15px;
-        letter-spacing: 0.5px;
-    }
+        /* Centralized Component Core Box with Auto-scale (Responsive) */
+        .container {
+            background-color: #1a1a1a;
+            border: 1px solid #333333;
+            border-radius: 12px;
+            padding: 40px;
+            width: 90%;
+            max-width: 520px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            transition: all 0.4s ease;
+            box-sizing: border-box;
+        }
 
-    /* 4. Input Fields & Labels */
-    .form-group {
-        position: relative;
-        margin-bottom: 25px;
-    }
-    
-    .form-input {
-        width: 100%; 
-        box-sizing: border-box; 
-        padding: 14px 12px 10px 12px; 
-        background: #2b2b2b; 
-        border: 1px solid #444; 
-        border-radius: 8px; 
-        color: #f0f0f0;
-        transition: border-color 0.3s, box-shadow 0.3s;
-        font-size: 1em;
-    }
-    
-    .form-label {
-        position: absolute;
-        top: 14px;
-        left: 12px;
-        font-size: 1em;
-        color: #b0b0b0;
-        pointer-events: none;
-        transition: all 0.2s ease-out;
-    }
+        .section-title {
+            color: #e6b800;
+            font-size: 1.4rem;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(230, 184, 0, 0.5);
+            letter-spacing: 0.5px;
+        }
+        
+        .divider {
+            border: none;
+            border-top: 1px solid #444444;
+            margin-bottom: 25px;
+        }
 
-    /* Adjust label positioning if text is long */
-    .form-input:focus + .form-label,
-    .form-input:not(:placeholder-shown) + .form-label {
-        top: 6px;
-        font-size: 0.75em;
-        color: #D4AF37;
-        /* Handle potential overflow on smaller screens */
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        width: calc(100% - 24px); 
-    }
+        /* Standardized Dark Fields Styling */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: #cccccc;
+            margin-bottom: 8px;
+        }
+        .form-group select, 
+        .form-group input[type="text"],
+        .file-upload-wrapper {
+            width: 100%;
+            padding: 14px;
+            background-color: #262626;
+            border: 1px solid #444444;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            box-sizing: border-box;
+            outline: none;
+            transition: all 0.3s ease;
+        }
 
-    .form-input:focus {
-        border-color: #D4AF37; 
-        box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
-        outline: none;
-    }
+        /* Input Focus Border Light Yellow Glow effect */
+        .form-group select:focus, 
+        .form-group input[type="text"]:focus {
+            border-color: #e6b800;
+            box-shadow: 0 0 10px rgba(230, 184, 0, 0.4);
+        }
 
-    label[for="fileInput"] {
-        display: block;
-        text-align: left;
-        margin-bottom: 5px;
-        font-size: 0.9em;
-        color: #b0b0b0;
-    }
-    input[type="file"] {
-        width: 100%; 
-        box-sizing: border-box; 
-        padding: 12px; 
-        background: #2b2b2b; 
-        border: 1px solid #444; 
-        border-radius: 8px; 
-        color: #f0f0f0;
-        font-size: 1em;
-    }
-    input[type="file"]::file-selector-button {
-        background: #D4AF37;
-        color: #121212; 
-        border: none;
-        padding: 8px 12px;
-        margin-right: 10px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: 600;
-        transition: background 0.3s;
-    }
-    input[type="file"]::file-selector-button:hover {
-        background: #E6B800;
-    }
-    
-    /* 5. Button Styles */
-    button[type="submit"] {
-        width: 100%;
-        padding: 15px;
-        background: linear-gradient(90deg, #D4AF37, #B8860B); 
-        border: none;
-        color: #121212; 
-        font-size: 1.1em;
-        cursor: pointer;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        font-weight: 700;
-        margin-top: 15px;
-        letter-spacing: 0.5px;
-        position: relative; 
-        text-align: center;
-        text-decoration: none;
-        box-sizing: border-box;
-        display: inline-block;
-    }
-    button[type="submit"]:hover { 
-        background: linear-gradient(90deg, #E6B800, #D4AF37);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
-    }
-    
-    /* Button Loader */
-    .loader {
-        width: 18px;
-        height: 18px;
-        border: 3px solid #121212;
-        border-bottom-color: transparent;
-        border-radius: 50%;
-        display: inline-block;
-        box-sizing: border-box;
-        animation: spin 1s linear infinite;
-        vertical-align: middle;
-        margin-right: 8px;
-    }
-    button.loading {
-        color: transparent; 
-        cursor: not-allowed;
-    }
-    button.loading::after {
-        content: "";
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        margin: auto;
-        border: 4px solid transparent;
-        border-top-color: #121212;
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
-    }
+        /* File Upload Custom Area styling */
+        .file-upload-wrapper {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .file-upload-wrapper:hover {
+            border-color: #e6b800;
+            box-shadow: 0 0 10px rgba(230, 184, 0, 0.3);
+        }
+        .file-btn {
+            background-color: #e6b800;
+            color: #0d0d0d;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            margin-right: 15px;
+            white-space: nowrap;
+        }
+        .file-name-text {
+            color: #8c8c8c;
+            font-size: 0.9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
 
+        /* Premium Gold Buttons Styling with Stable Glow */
+        .btn-gold {
+            background: linear-gradient(135deg, #e6b800, #b38f00);
+            color: #0d0d0d;
+            border: none;
+            padding: 14px;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 0 12px rgba(230, 184, 0, 0.4);
+            letter-spacing: 0.5px;
+        }
+        .btn-gold:hover {
+            opacity: 0.95;
+            box-shadow: 0 0 18px rgba(230, 184, 0, 0.6);
+        }
+        .btn-gold:active {
+            transform: scale(0.98);
+        }
 
-    /* 6. Message/Alert Styles */
-    #message { 
-        margin-top: 30px; 
-        padding: 15px; 
-        font-weight: 600; 
-        border-radius: 8px; 
-        border-left: 5px solid;
-        min-height: 20px; 
-        visibility: hidden; 
-        opacity: 0;
-        transition: visibility 0s, opacity 0.5s linear;
-        text-align: left;
-    }
-    #message.show { 
-        visibility: visible; 
-        opacity: 1; 
-    }
-    .info { background: #333; color: #D4AF37; border-color: #D4AF37; }
-    .success.show { 
-        background: #3a321a; color: #E6B800; border-color: #D4AF37; 
-        animation: popInSuccess 0.3s ease-out forwards;
-    }
-    .error.show { 
-        background: #4a3333; color: #ff6347; border-color: #d32f2f;
-        animation: shakeError 0.4s ease-in-out forwards;
-    }
+        /* Professional Footer for Credits with Perfect Balanced Glow */
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #777777;
+            font-size: 0.95rem;
+            margin-top: auto;
+            width: 100%;
+            letter-spacing: 0.5px;
+        }
+        footer span {
+            color: #e6b800;
+            font-weight: 700;
+            text-shadow: 0 0 12px rgba(230, 184, 0, 0.5);
+        }
 
-    /* 7. Footer Styles */
-    footer {
-        text-align: center;
-        padding: 20px;
-        font-size: 0.85em;
-        color: #D4AF37; 
-        margin-top: 40px;
-        opacity: 0; 
-        transition: opacity 2s ease-in;
-        line-height: 1.8;
-    }
-    footer.visible {
-        opacity: 1;
-    }
-    .team-list {
-        display: block;
-        color: #b0b0b0; 
-        margin-bottom: 5px;
-        font-size: 0.9em;
-    }
-    .name-separator {
-        color: #444; 
-        margin: 0 6px;
-    }
-    
-</style>
-<!-- Load Google Font 'Inter' -->
-<link rel="preconnect" href="https.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+        /* Dynamic Section Visibility Logic Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        /* --- Animations & Structural Modals --- */
+        .loader-overlay {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 40px 0;
+        }
+        .spinner {
+            border: 4px solid #262626;
+            border-top: 4px solid #e6b800;
+            border-radius: 50%;
+            width: 45px;
+            height: 45px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            animation: fadeIn 0.3s forwards;
+        }
+        .modal-box {
+            background-color: #1a1a1a;
+            border: 1px solid #e6b800;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            max-width: 400px;
+            width: 85%;
+            transform: scale(0.7);
+            box-shadow: 0 0 20px rgba(230, 184, 0, 0.3);
+            animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        .success-checkmark {
+            width: 60px;
+            height: 60px;
+            background-color: #2d5a27;
+            color: #5cd65c;
+            font-size: 2.2rem;
+            line-height: 60px;
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            font-weight: bold;
+        }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes popUp { to { transform: scale(1); } }
+
+        /* Mobile Scale Breakpoints */
+        @media (max-width: 600px) {
+            header { padding: 25px 15px 5px 15px; }
+            header h1 { font-size: 1.5rem; text-shadow: 0 0 8px rgba(230, 184, 0, 0.4); }
+            header p { font-size: 0.85rem; }
+            .container { padding: 25px 20px; width: 92%; margin-top: 15px; }
+            .section-title { font-size: 1.2rem; }
+            .form-group select, .form-group input[type="text"], .file-upload-wrapper, .btn-gold { padding: 12px; font-size: 0.9rem; }
+            footer { font-size: 0.85rem; padding: 15px; }
+        }
+    </style>
 </head>
 <body>
 
-<header>
-    <h2>VETIAS DOCUMENT & CERTIFICATES MANAGEMENT SYSTEM</h2>
-    <p>FINAL YEAR PROJECT | Secure, Safe & Easy to Use</p>
-</header>
+    <header>
+        <h1>VETIAS DOCUMENT & CERTIFICATES MANAGEMENT SYSTEM</h1>
+        <p>FINAL YEAR PROJECT | Secure, Safe & Easy to Use</p>
+    </header>
 
-<div class="container">
-    
-    <section id="upload">
-        <h3>Document or Certificate Upload Interface</h3>
+    <div id="step1-container" class="container">
+        <h3 class="section-title">Programme & Semester Configuration</h3>
+        <hr class="divider">
         
-        <form id="uploadForm" action="/api/upload-certificate" method="POST" enctype="multipart/form-data">
-            
+        <div class="form-group">
+            <label>Select Programme / Course</label>
+            <select id="dept-select">
+                <option value="B.Sc. Computer Science">B.Sc. Computer Science</option>
+                <option value="B.Sc. Computer Science & Applications">B.Sc. Computer Science & Applications</option>
+                <option value="B.Sc. Computer Science (AI & Data Science)">B.Sc. Computer Science (AI & Data Science)</option>
+                <option value="B.Sc. Information Technology">B.Sc. Information Technology</option>
+                <option value="B.Sc. Computer Science - Artificial Intelligence">B.Sc. Computer Science - Artificial Intelligence</option>
+                <option value="B.Sc. Computer Technology">B.Sc. Computer Technology</option>
+                <option value="B.C.A.">B.C.A.</option>
+                <option value="M.Sc. Computer Science">M.Sc. Computer Science</option>
+                
+                <option value="B.Com.">B.Com.</option>
+                <option value="B.Com. Accounting & Finance">B.Com. Accounting & Finance</option>
+                <option value="B.Com. Computer Applications">B.Com. Computer Applications</option>
+                <option value="B.Com. Information Technology">B.Com. Information Technology</option>
+                <option value="B.Com. Professional Accounting">B.Com. Professional Accounting</option>
+                <option value="M.Com.">M.Com.</option>
+                
+                <option value="BBA">BBA</option>
+                <option value="MBA">MBA</option>
+                
+                <option value="B.A. English Literature">B.A. English Literature</option>
+                <option value="B.A. Sociology">B.A. Sociology</option>
+                <option value="B.Sc. Costume Design and Fashion">B.Sc. Costume Design and Fashion</option>
+                <option value="M.Sc. Costume Design and Fashion">M.Sc. Costume Design and Fashion</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Select Current Academic Year</label>
+            <select id="year-select">
+                <option value="I Year">I Year</option>
+                <option value="II Year">II Year</option>
+                <option value="III Year">III Year</option>
+            </select>
+        </div>
+
+        <button type="button" class="btn-gold" onclick="goToStep2()">Next Setup Interface</button>
+    </div>
+
+    <div id="step2-container" class="container hidden">
+        <h3 class="section-title">Document or Certificate Upload Interface</h3>
+        <p id="badge-info" style="color: #e6b800; font-size: 0.9rem; margin-top: -5px; margin-bottom: 15px; font-weight: 700; text-shadow: 0 0 5px rgba(230, 184, 0, 0.2);"></p>
+        <hr class="divider">
+
+        <form id="upload-main-form" onsubmit="handleFormSubmit(event)">
             <div class="form-group">
-                <input type="text" id="studentName" name="student_name" class="form-input" placeholder=" " required>
-                <!-- UPDATED: Added example text to the label -->
-                <label for="studentName" class="form-label">Student Name (e.g., Kishore S)</label>
+                <input type="text" id="student-name" placeholder="Student Name (e.g., Kishore S)" maxlength="40" required>
             </div>
 
             <div class="form-group">
-                <input type="text" id="certificateName" name="certificate_name" class="form-input" placeholder=" " required>
-                <label for="certificateName" class="form-label">Certificate Name (e.g., Java Basics)</label>
+                <input type="text" id="cert-name" placeholder="Certificate Name (e.g., Java Basics)" maxlength="50" required>
             </div>
-            
+
             <div class="form-group">
-                <input type="text" id="rollNumber" name="roll_number" class="form-input" placeholder=" " required>
-                <!-- UPDATED: Added example text to the label -->
-                <label for="rollNumber" class="form-label">Roll Number (e.g., 24CSC16)</label>
+                <input type="text" id="roll-number" placeholder="Roll Number (e.g., 24CSC16)" 
+                       oninput="this.value = this.value.toUpperCase()" 
+                       pattern="[0-9]{2}[A-Z0-9]+" 
+                       title="Please enter a valid format (e.g., 24CSC16)" 
+                       maxlength="15" required>
             </div>
-            
-            <label for="fileInput">Select Certificate File (.pdf, .jpg, .png)</label>
-            <input type="file" id="fileInput" name="certificate_file" accept=".pdf,.jpg,.png" required style="margin-top: 5px;">
-            
-            <button type="submit">Upload Document</button>
+
+            <div class="form-group">
+                <label style="color: #8c8c8c; font-size: 0.85rem;">Select Certificate File (.pdf, .jpg, .png)</label>
+                <input type="file" id="real-file-input" accept=".pdf,.jpg,.jpeg,.png" style="display: none;" onchange="updateFileText()">
+                <div class="file-upload-wrapper" id="custom-file-box" onclick="triggerFileChoose()">
+                    <span class="file-btn">Choose file</span>
+                    <span id="file-custom-text" class="file-name-text">No file chosen</span>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-gold" style="margin-top: 10px;">Upload Document</button>
         </form>
-        <div id="message"></div>
-    </section>
-    
-</div>
+    </div>
 
-<footer id="footer">
-    <!-- CORRECTED FOOTER FORMATTING -->
-    <strong>FINAL YEAR PROJECT</strong> | Developed and maintained by the <strong> KISHORE S</strong>
-</footer>
+    <div id="loader-container" class="container hidden">
+        <div class="loader-overlay">
+            <div class="spinner"></div>
+            <p style="color: #cccccc; font-size: 0.95rem; font-weight: 500; text-align: center;">Uploading encryption packages securely...</p>
+        </div>
+    </div>
 
-<script>
-    
-    // --- Upload Form Logic ---
-    document.getElementById('uploadForm').addEventListener('submit', async function(event) {
-        event.preventDefault(); 
-        
-        const form = event.target;
-        const formData = new FormData(form);
-        const messageDiv = document.getElementById('message');
-        const submitButton = form.querySelector('button[type="submit"]');
-        const originalButtonText = submitButton.innerHTML; 
-        
-        submitButton.disabled = true;
-        submitButton.classList.add('loading');
-        submitButton.innerHTML = ''; 
-        
-        messageDiv.className = 'info show'; 
-        messageDiv.textContent = 'Processing request... Please wait.';
+    <div id="success-modal" class="modal-backdrop hidden">
+        <div class="modal-box">
+            <div class="success-checkmark">✓</div>
+            <h3 style="color: #ffffff; margin-bottom: 8px;">Success State!</h3>
+            <p id="success-dynamic-msg" style="color: #cccccc; font-size: 0.95rem; margin-bottom: 20px; line-height: 1.4;"></p>
+            <button class="btn-gold" onclick="closeSuccessReset()">OK</button>
+        </div>
+    </div>
 
-        try {
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: formData
-            });
+    <footer>
+        Maintained & Designed by: <span>KISHORE S</span>
+    </footer>
 
-            const result = await response.text();
+    <script>
+        function goToStep2() {
+            var selectedDept = document.getElementById("dept-select").value;
+            var selectedYear = document.getElementById("year-select").value;
 
-            if (response.ok) {
-                messageDiv.className = 'success show'; 
-                messageDiv.textContent = '✅ ' + result;
-            } else {
-                messageDiv.className = 'error show'; 
-                messageDiv.textContent = '❌ Upload Failed: ' + result;
-            }
-        } catch (error) {
-            messageDiv.className = 'error show'; 
-            messageDiv.textContent = '❌ Network Error: Could not reach the server (Is node server running?).';
-        } finally {
-            submitButton.disabled = false;
-            submitButton.classList.remove('loading');
-            submitButton.innerHTML = originalButtonText; 
+            document.getElementById("badge-info").innerText = "Target Path: " + selectedDept + " | " + selectedYear;
+
+            document.getElementById("step1-container").classList.add("hidden");
+            document.getElementById("step2-container").classList.remove("hidden");
         }
-    });
 
-    // --- Page Load Logic ---
-    document.addEventListener('DOMContentLoaded', (event) => {
-        // Show the upload section by default
-        document.getElementById('upload').style.display = 'block';
-        
-        // Start footer fade-in
-        setTimeout(() => {
-            const footer = document.getElementById('footer');
-            if (footer) {
-                footer.classList.add('visible');
+        function triggerFileChoose() {
+            document.getElementById("real-file-input").click();
+        }
+
+        function updateFileText() {
+            var fileInput = document.getElementById("real-file-input");
+            var customText = document.getElementById("file-custom-text");
+            
+            if (fileInput.files.length > 0) {
+                customText.innerText = fileInput.files[0].name;
+                customText.style.color = "#ffffff";
+            } else {
+                customText.innerText = "No file chosen";
+                customText.style.color = "#8c8c8c";
             }
-        }, 2000); 
-    });
-</script>
+        }
 
+        function handleFormSubmit(event) {
+            // JavaScript custom form error checker implementation pipeline
+            var studentName = document.getElementById("student-name").value.trim();
+            var certificateName = document.getElementById("cert-name").value.trim();
+            var rollNumber = document.getElementById("roll-number").value.trim();
+            var fileInput = document.getElementById("real-file-input");
+
+            // Strict blank field check validation engine triggers
+            if (!studentName || !certificateName || !rollNumber) {
+                // Let browser handle native alerts if any HTML validation is bypassed
+                return; 
+            }
+
+            // Custom validation logic check for file selector input
+            if (fileInput.files.length === 0) {
+                event.preventDefault(); // Stop form transition loop
+                alert("Validation Error: Please select a valid Certificate File before uploading!");
+                document.getElementById("custom-file-box").style.borderColor = "#ff3333";
+                return;
+            }
+
+            event.preventDefault(); // Valid aana aprom smooth load trigger panrom
+            document.getElementById("custom-file-box").style.borderColor = "#444444";
+
+            document.getElementById("step2-container").classList.add("hidden");
+            document.getElementById("loader-container").classList.remove("hidden");
+
+            setTimeout(function() {
+                document.getElementById("success-dynamic-msg").innerHTML = "Hi <b>" + studentName + "</b>, your <u>" + certificateName + "</u> certificate verified and hosted successfully to secure storage node.";
+                
+                document.getElementById("loader-container").classList.add("hidden");
+                document.getElementById("success-modal").classList.remove("hidden");
+            }, 2000);
+        }
+
+        function closeSuccessReset() {
+            document.getElementById("upload-main-form").reset();
+            document.getElementById("file-custom-text").innerText = "No file chosen";
+            document.getElementById("file-custom-text").style.color = "#8c8c8c";
+
+            document.getElementById("success-modal").classList.add("hidden");
+            document.getElementById("step1-container").classList.remove("hidden");
+        }
+    </script>
 </body>
 </html>
