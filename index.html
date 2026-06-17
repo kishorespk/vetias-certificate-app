@@ -15,6 +15,11 @@
             10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
             20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
+        @keyframes popInSuccess {
+            0% { opacity: 0; transform: scale(0.8); }
+            80% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 1; transform: scale(1); }
+        }
         @keyframes popUp { to { transform: scale(1); } }
         @keyframes fadeIn { to { opacity: 1; } }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
@@ -88,6 +93,7 @@
         /* Input Control Group Components Styling */
         .form-group { margin-bottom: 25px; }
         .form-group label { display: block; font-size: 0.9rem; color: #b0b0b0; margin-bottom: 8px; text-align: left; }
+        
         .form-group select, 
         .form-group input[type="text"],
         .file-upload-wrapper {
@@ -100,12 +106,15 @@
             font-size: 1rem;
             box-sizing: border-box;
             outline: none;
-            transition: all 0.3s ease;
+            /* Added smooth background transitions controller speed */
+            transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
-        /* Input Focus Border Light Yellow Glow interaction mapping */
-        .form-group select:focus, .form-group input[type="text"]:focus {
+        /* Focus Light Full Box Glow Background effect mapping */
+        .form-group select:focus, 
+        .form-group input[type="text"]:focus {
             border-color: #e6b800;
+            background-color: #211f18; /* Semma soft-gold tint on focus layer */
             box-shadow: 0 0 10px rgba(230, 184, 0, 0.4);
         }
 
@@ -118,7 +127,7 @@
         }
         .file-name-text { color: #8c8c8c; font-size: 0.95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-        /* Horizontal Metallic Gold Button layout without dark fades */
+        /* Refixed Horizontal Metallic Gold Button layout */
         .btn-gold {
             background: linear-gradient(to right, #fff5b3 0%, #ffcc00 50%, #e6a100 100%);
             color: #0d0d0d; border: none; padding: 15px; width: 100%; border-radius: 8px;
@@ -146,7 +155,7 @@
         .modal-box { background-color: #1a1a1a; border: 1px solid #e6b800; border-radius: 12px; padding: 30px; text-align: center; max-width: 400px; width: 85%; transform: scale(0.7); box-shadow: 0 0 20px rgba(230, 184, 0, 0.3); animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; box-sizing: border-box; }
         .success-checkmark { width: 60px; height: 60px; background-color: #2d5a27; color: #5cd65c; font-size: 2.2rem; line-height: 60px; border-radius: 50%; margin: 0 auto 15px auto; font-weight: bold; }
 
-        /* Footer Custom Portfolio View layout with Balanced Glow */
+        /* Footer Portfolio View layout with Balanced Glow */
         footer { text-align: center; padding: 25px; color: #777777; font-size: 0.95rem; margin-top: auto; width: 100%; letter-spacing: 0.5px; line-height: 1.6; opacity: 0; transition: opacity 1.5s ease-in; }
         footer.visible { opacity: 1; }
         footer span { color: #e6b800; font-weight: 700; text-shadow: 0 0 12px rgba(230, 184, 0, 0.5); }
@@ -260,18 +269,39 @@
     </footer>
 
     <script>
+        // Check selection rules for Step 1 parameters
         function verifyAndGoToStep2() {
-            var selectedDept = document.getElementById("dept-select").value;
-            var selectedYear = document.getElementById("year-select").value;
+            var deptSelect = document.getElementById("dept-select");
+            var yearSelect = document.getElementById("year-select");
+            
+            var selectedDept = deptSelect.value;
+            var selectedYear = yearSelect.value;
 
-            if (!selectedDept || !selectedYear) {
-                alert("Validation Error: Please complete the setup configuration fields!");
+            // Reset dynamic box colors back to original states on fresh click
+            deptSelect.style.backgroundColor = "#262626";
+            deptSelect.style.borderColor = "#444444";
+            yearSelect.style.backgroundColor = "#262626";
+            yearSelect.style.borderColor = "#444444";
+
+            // ✨ NEW FULL BOX HIGHLIGHT COLOR INJECTION:
+            if (!selectedDept) {
+                alert("Validation Error: Please select a valid Programme / Course before proceeding!");
+                deptSelect.style.backgroundColor = "#3d2424"; // Complete box changes to red tint shading look
+                deptSelect.style.borderColor = "#ff4444";
+                deptSelect.focus();
+                return;
+            }
+            if (!selectedYear) {
+                alert("Validation Error: Please select your Academic Year before proceeding!");
+                yearSelect.style.backgroundColor = "#3d2424"; // Full background fill warning triggers
+                yearSelect.style.borderColor = "#ff4444";
+                yearSelect.focus();
                 return;
             }
 
             document.getElementById("badge-info").innerText = "Target Path: " + selectedDept + " | " + selectedYear;
             
-            // Sync values to form layers fields
+            // Sync values to form layers
             document.getElementById("hiddenDepartmentName").value = selectedDept;
             document.getElementById("hiddenAcademicYear").value = selectedYear;
 
@@ -293,7 +323,7 @@
             }
         }
 
-        // --- SERVER ENDPOINT SYNC PIPELINE ---
+        // --- SERVER ENDPOINT NETWORK PIPELINE ---
         document.getElementById('uploadForm').addEventListener('submit', async function(event) {
             var fileField = document.getElementById("fileInput");
             if (fileField.files.length === 0) {
@@ -323,7 +353,7 @@
 
                 if (serverConnectionNetworkStream.ok) {
                     statusBoxDisplay.style.display = "none";
-                    document.getElementById("success-dynamic-msg").innerHTML = "Hi <b>" + inputStudentName + "</b>, your <u>" + inputCertName + "</u> certificate verified and sorted into designated Department/Year cloud folders successfully.<br><br><small style='color:#8c8c8c;'>Server log: " + rawServerOutputText + "</small>";
+                    document.getElementById("success-dynamic-msg").innerHTML = "Hi <b>" + inputStudentName + "</b>, your <u>" + inputCertName + "</u> certificate verified and hosted successfully to secure multi-level Cloudinary folders layout.<br><br><small style='color:#8c8c8c;'>Server log: " + rawServerOutputText + "</small>";
                     document.getElementById("success-modal").classList.remove("hidden");
                 } else {
                     statusBoxDisplay.className = 'error'; statusBoxDisplay.textContent = '❌ Upload Failed: ' + rawServerOutputText;
