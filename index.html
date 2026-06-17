@@ -15,15 +15,9 @@
             10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
             20%, 40%, 60%, 80% { transform: translateX(5px); }
         }
-        @keyframes popInSuccess {
-            0% { opacity: 0; transform: scale(0.8); }
-            80% { opacity: 1; transform: scale(1.05); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes popUp { to { transform: scale(1); } }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         /* Global Base Dark Configuration */
         body {
@@ -55,11 +49,7 @@
             text-shadow: 0 0 12px rgba(230, 184, 0, 0.6);
             font-weight: 800;
         }
-        header p {
-            color: #8c8c8c;
-            font-size: 1rem;
-            margin: 0;
-        }
+        header p { color: #8c8c8c; font-size: 1rem; margin: 0; }
 
         /* Main Central Interface Component Wrapper Card */
         .container {
@@ -93,23 +83,11 @@
             letter-spacing: 0.5px;
         }
         
-        .divider {
-            border: none;
-            border-top: 1px solid #444444;
-            margin-bottom: 25px;
-        }
+        .divider { border: none; border-top: 1px solid #444444; margin-bottom: 25px; }
 
         /* Input Control Group Components Styling */
-        .form-group {
-            margin-bottom: 25px;
-        }
-        .form-group label {
-            display: block;
-            font-size: 0.9rem;
-            color: #b0b0b0;
-            margin-bottom: 8px;
-            text-align: left;
-        }
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; font-size: 0.9rem; color: #b0b0b0; margin-bottom: 8px; text-align: left; }
         .form-group select, 
         .form-group input[type="text"],
         .file-upload-wrapper {
@@ -125,142 +103,61 @@
             transition: all 0.3s ease;
         }
 
-        /* Focus Light Border Yellow Neon Glow Interaction mapping */
-        .form-group select:focus, 
-        .form-group input[type="text"]:focus {
+        /* Input Focus Border Light Yellow Glow interaction mapping */
+        .form-group select:focus, .form-group input[type="text"]:focus {
             border-color: #e6b800;
             box-shadow: 0 0 10px rgba(230, 184, 0, 0.4);
         }
 
         /* Customized Responsive File Selection Wrapper Field */
-        .file-upload-wrapper {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-        }
-        .file-upload-wrapper:hover {
-            border-color: #e6b800;
-            box-shadow: 0 0 10px rgba(230, 184, 0, 0.3);
-        }
+        .file-upload-wrapper { display: flex; align-items: center; cursor: pointer; }
+        .file-upload-wrapper:hover { border-color: #e6b800; box-shadow: 0 0 10px rgba(230, 184, 0, 0.3); }
         .file-btn {
-            background-color: #e6b800;
-            color: #0d0d0d;
-            padding: 8px 14px;
-            border-radius: 6px;
-            font-weight: bold;
-            font-size: 0.85rem;
-            margin-right: 15px;
-            white-space: nowrap;
+            background-color: #e6b800; color: #0d0d0d; padding: 8px 14px;
+            border-radius: 6px; font-weight: bold; font-size: 0.85rem; margin-right: 15px; white-space: nowrap;
         }
-        .file-name-text {
-            color: #8c8c8c;
-            font-size: 0.95rem;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+        .file-name-text { color: #8c8c8c; font-size: 0.95rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-        /* Refixed Horizontal Metallic Gold Button layout without dark fades */
+        /* Horizontal Metallic Gold Button layout without dark fades */
         .btn-gold {
             background: linear-gradient(to right, #fff5b3 0%, #ffcc00 50%, #e6a100 100%);
-            color: #0d0d0d;
-            border: none;
-            padding: 15px;
-            width: 100%;
-            border-radius: 8px;
-            font-size: 1.1rem;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(230, 184, 0, 0.3);
-            letter-spacing: 0.7px;
-            text-transform: uppercase;
-            outline: none;
-            transition: transform 0.1s ease, box-shadow 0.2s ease;
-            text-align: center;
+            color: #0d0d0d; border: none; padding: 15px; width: 100%; border-radius: 8px;
+            font-size: 1.1rem; font-weight: 800; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(230, 184, 0, 0.3); letter-spacing: 0.7px;
+            text-transform: uppercase; outline: none; transition: transform 0.1s ease, box-shadow 0.2s ease; text-align: center;
         }
-        .btn-gold:hover {
-            box-shadow: 0 6px 20px rgba(230, 184, 0, 0.5);
-            transform: translateY(-2px);
-        }
-        .btn-gold:active {
-            transform: scale(0.97);
-            background: linear-gradient(to right, #ffffff 0%, #fff2a3 60%, #ffcc00 100%);
-            box-shadow: 0 0 25px #e6b800, inset 0 0 10px rgba(255, 255, 255, 0.5);
-        }
-        /* Button Loading state adjustments mappings */
-        .btn-gold.loading {
-            color: transparent;
-            cursor: not-allowed;
-            position: relative;
-        }
+        .btn-gold:hover { box-shadow: 0 6px 20px rgba(230, 184, 0, 0.5); transform: translateY(-2px); }
+        .btn-gold:active { transform: scale(0.97); background: linear-gradient(to right, #ffffff 0%, #fff2a3 60%, #ffcc00 100%); box-shadow: 0 0 25px #e6b800; }
+        .btn-gold.loading { color: transparent; cursor: not-allowed; position: relative; }
         .btn-gold.loading::after {
-            content: "";
-            position: absolute;
-            width: 20px; height: 20px;
+            content: ""; position: absolute; width: 20px; height: 20px;
             top: 0; left: 0; right: 0; bottom: 0; margin: auto;
-            border: 3px solid transparent;
-            border-top-color: #0d0d0d;
-            border-radius: 50%;
+            border: 3px solid transparent; border-top-color: #0d0d0d; border-radius: 50%;
             animation: spin 1s linear infinite;
         }
 
-        /* Dynamic Real Response Message Status Styling */
-        #api-response-msg {
-            margin-top: 25px;
-            padding: 15px;
-            font-weight: 600;
-            border-radius: 8px;
-            border-left: 5px solid;
-            display: none;
-            text-align: left;
-        }
+        /* Dynamic Real Response Error Message Box Styling */
+        #api-response-msg { margin-top: 25px; padding: 15px; font-weight: 600; border-radius: 8px; border-left: 5px solid; display: none; text-align: left; }
         #api-response-msg.info { background: #1c1c1c; color: #e6b800; border-color: #e6b800; display: block; }
-        #api-response-msg.success { 
-            background: #23311f; color: #5cd65c; border-color: #2e7d32; display: block;
-            animation: popInSuccess 0.3s ease-out forwards;
-        }
-        #api-response-msg.error { 
-            background: #382424; color: #ff6347; border-color: #d32f2f; display: block;
-            animation: shakeError 0.4s ease-in-out forwards;
-        }
+        #api-response-msg.error { background: #382424; color: #ff6347; border-color: #d32f2f; display: block; animation: shakeError 0.4s ease-in-out forwards; }
 
-        /* Footer Custom Professional Portfolio view layout */
-        footer {
-            text-align: center;
-            padding: 25px;
-            color: #777777;
-            font-size: 0.95rem;
-            margin-top: auto;
-            width: 100%;
-            letter-spacing: 0.5px;
-            line-height: 1.6;
-            opacity: 0;
-            transition: opacity 1.5s ease-in;
-        }
+        /* Absolute Animated Success Modal Popup Layer */
+        .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.8); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; animation: fadeIn 0.3s forwards; }
+        .modal-box { background-color: #1a1a1a; border: 1px solid #e6b800; border-radius: 12px; padding: 30px; text-align: center; max-width: 400px; width: 85%; transform: scale(0.7); box-shadow: 0 0 20px rgba(230, 184, 0, 0.3); animation: popUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; box-sizing: border-box; }
+        .success-checkmark { width: 60px; height: 60px; background-color: #2d5a27; color: #5cd65c; font-size: 2.2rem; line-height: 60px; border-radius: 50%; margin: 0 auto 15px auto; font-weight: bold; }
+
+        /* Portfolio Footer Layout with Dynamic Balance Glow */
+        footer { text-align: center; padding: 25px; color: #777777; font-size: 0.95rem; margin-top: auto; width: 100%; letter-spacing: 0.5px; line-height: 1.6; opacity: 0; transition: opacity 1.5s ease-in; }
         footer.visible { opacity: 1; }
-        footer span {
-            color: #e6b800;
-            font-weight: 700;
-            text-shadow: 0 0 12px rgba(230, 184, 0, 0.5);
-        }
-        footer .dept-label {
-            display: block;
-            font-size: 0.85rem;
-            color: #555555;
-            font-weight: 500;
-            margin-top: 2px;
-        }
+        footer span { color: #e6b800; font-weight: 700; text-shadow: 0 0 12px rgba(230, 184, 0, 0.5); }
+        footer .dept-label { display: block; font-size: 0.85rem; color: #555555; font-weight: 500; margin-top: 2px; }
 
         .hidden { display: none !important; }
 
-        /* Mobile View Auto-scale Configuration Settings */
+        /* Responsive Mobile Settings */
         @media (max-width: 600px) {
-            header { padding: 25px 15px 5px 15px; }
-            header h1 { font-size: 1.5rem; }
-            header p { font-size: 0.85rem; }
-            .section-box { padding: 25px 20px; }
-            .section-title { font-size: 1.2rem; }
-            footer { font-size: 0.85rem; padding: 15px; }
+            header { padding: 25px 15px 5px 15px; } header h1 { font-size: 1.5rem; } header p { font-size: 0.85rem; }
+            .section-box { padding: 25px 20px; } .section-title { font-size: 1.2rem; } footer { font-size: 0.85rem; padding: 15px; }
         }
     </style>
 </head>
@@ -313,6 +210,9 @@
 
             <form id="uploadForm" action="/api/upload-certificate" method="POST" enctype="multipart/form-data">
                 
+                <input type="hidden" id="hiddenDepartmentName" name="department_name">
+                <input type="hidden" id="hiddenAcademicYear" name="academic_year">
+
                 <div class="form-group">
                     <input type="text" id="studentName" name="student_name" placeholder="Student Name (e.g., Kishore S)" maxlength="40" required>
                 </div>
@@ -346,42 +246,45 @@
 
     </div>
 
+    <div id="success-modal" class="modal-backdrop hidden">
+        <div class="modal-box">
+            <div class="success-checkmark">✓</div>
+            <h3 style="color: #ffffff; margin-bottom: 8px;">Success State!</h3>
+            <p id="success-dynamic-msg" style="color: #cccccc; font-size: 0.95rem; margin-bottom: 20px; line-height: 1.4;"></p>
+            <button class="btn-gold" onclick="closeSuccessReset()">OK</button>
+        </div>
+    </div>
+
     <footer id="footer">
         Maintained & Designed by: <span>KISHORE S</span>
         <span class="dept-label">III B.Sc. Computer Science</span>
     </footer>
 
     <script>
-        // Check selection rules for Step 1 parameters
         function verifyAndGoToStep2() {
             var selectedDept = document.getElementById("dept-select").value;
             var selectedYear = document.getElementById("year-select").value;
 
-            if (!selectedDept) {
-                alert("Validation Error: Please select a valid Programme / Course before proceeding!");
-                document.getElementById("dept-select").focus();
-                return;
-            }
-            if (!selectedYear) {
-                alert("Validation Error: Please select your Academic Year before proceeding!");
-                document.getElementById("year-select").focus();
+            if (!selectedDept || !selectedYear) {
+                alert("Validation Error: Please complete the setup selectors configuration fields!");
                 return;
             }
 
             document.getElementById("badge-info").innerText = "Target Path: " + selectedDept + " | " + selectedYear;
+            
+            // Sync values to forms layers inputs
+            document.getElementById("hiddenDepartmentName").value = selectedDept;
+            document.getElementById("hiddenAcademicYear").value = selectedYear;
 
             document.getElementById("step1-box").classList.add("hidden");
             document.getElementById("step2-box").classList.remove("hidden");
         }
 
-        function openFilePickerWindow() {
-            document.getElementById("fileInput").click();
-        }
+        function openFilePickerWindow() { document.getElementById("fileInput").click(); }
 
         function syncFileLabelText() {
             var fileSelectorInput = document.getElementById("fileInput");
             var textLabelDisplay = document.getElementById("file-custom-text");
-            
             if (fileSelectorInput.files.length > 0) {
                 textLabelDisplay.innerText = fileSelectorInput.files[0].name;
                 textLabelDisplay.style.color = "#ffffff";
@@ -391,20 +294,14 @@
             }
         }
 
-        // --- REAL LIVE SERVER BACKEND NETWORK PIPELINE ---
+        // --- REAL LIVE ROUTING FETCH SYNC ---
         document.getElementById('uploadForm').addEventListener('submit', async function(event) {
             var fileField = document.getElementById("fileInput");
-
-            // Stop logic if file selector is completely hollow
             if (fileField.files.length === 0) {
-                event.preventDefault();
-                alert("Validation Error: Please select a valid Certificate File before uploading!");
-                document.getElementById("custom-file-container").style.borderColor = "#ff3333";
-                return;
+                event.preventDefault(); alert("Validation Error: Please select a valid file!"); return;
             }
 
-            event.preventDefault(); // Control stream interception
-            document.getElementById("custom-file-container").style.borderColor = "#444444";
+            event.preventDefault(); 
             
             const formElement = event.target;
             const binaryMultipartData = new FormData(formElement);
@@ -412,60 +309,46 @@
             const masterUploadButton = document.getElementById('submitBtn');
             const cacheOriginalText = masterUploadButton.innerHTML;
             
-            // Activate dynamic processing spinner style triggers
-            masterUploadButton.disabled = true;
-            masterUploadButton.classList.add('loading');
-            masterUploadButton.innerHTML = ''; 
+            const inputStudentName = document.getElementById("studentName").value.trim();
+            const inputCertName = document.getElementById("certificateName").value.trim();
             
-            statusBoxDisplay.className = 'info'; 
-            statusBoxDisplay.textContent = 'Processing request secure upload... Please wait.';
+            masterUploadButton.disabled = true; masterUploadButton.classList.add('loading'); masterUploadButton.innerHTML = ''; 
+            statusBoxDisplay.className = 'info'; statusBoxDisplay.textContent = 'Processing request secure upload...';
 
             try {
-                // Real live database transmission transaction link
                 const serverConnectionNetworkStream = await fetch(formElement.action, {
-                    method: 'POST',
-                    body: binaryMultipartData
+                    method: 'POST', body: binaryMultipartData
                 });
 
                 const rawServerOutputText = await serverConnectionNetworkStream.text();
 
                 if (serverConnectionNetworkStream.ok) {
-                    statusBoxDisplay.className = 'success'; 
-                    statusBoxDisplay.textContent = '✅ Success: ' + rawServerOutputText;
-                    
-                    // Clear inputs variables after complete cloud push transaction
-                    setTimeout(function() {
-                        formElement.reset();
-                        document.getElementById("file-custom-text").innerText = "No file chosen";
-                        document.getElementById("file-custom-text").style.color = "#8c8c8c";
-                        statusBoxDisplay.style.display = "none";
-                        
-                        // Dynamic routing engine returns loop pointer back to configuration panel
-                        document.getElementById("step2-box").classList.add("hidden");
-                        document.getElementById("step1-box").classList.remove("hidden");
-                    }, 3500);
-
+                    statusBoxDisplay.style.display = "none";
+                    document.getElementById("success-dynamic-msg").innerHTML = "Hi <b>" + inputStudentName + "</b>, your <u>" + inputCertName + "</u> certificate verified and hosted successfully to secure multi-level cloud folders layout.<br><br><small style='color:#8c8c8c;'>Server log: " + rawServerOutputText + "</small>";
+                    document.getElementById("success-modal").classList.remove("hidden");
                 } else {
-                    statusBoxDisplay.className = 'error'; 
-                    statusBoxDisplay.textContent = '❌ Upload Failed: ' + rawServerOutputText;
+                    statusBoxDisplay.className = 'error'; statusBoxDisplay.textContent = '❌ Upload Failed: ' + rawServerOutputText;
                 }
             } catch (networkError) {
-                statusBoxDisplay.className = 'error'; 
-                statusBoxDisplay.textContent = '❌ Network Error: Could not reach cloud server endpoints (Is backend running?).';
+                statusBoxDisplay.className = 'error'; statusBoxDisplay.textContent = '❌ Network Connection Error: Unable to reach endpoint nodes.';
             } finally {
-                // Release operational states links
-                masterUploadButton.disabled = false;
-                masterUploadButton.classList.remove('loading');
-                masterUploadButton.innerHTML = cacheOriginalText; 
+                masterUploadButton.disabled = false; masterUploadButton.classList.remove('loading'); masterUploadButton.innerHTML = cacheOriginalText; 
             }
         });
 
-        // Trigger portfolio footer sequence on standard view load mappings
+        function closeSuccessReset() {
+            document.getElementById('uploadForm').reset();
+            document.getElementById("dept-select").value = "";
+            document.getElementById("year-select").value = "";
+            document.getElementById("file-custom-text").innerText = "No file chosen";
+            document.getElementById("file-custom-text").style.color = "#8c8c8c";
+            document.getElementById("success-modal").classList.add("hidden");
+            document.getElementById("step2-box").classList.add("hidden");
+            document.getElementById("step1-box").classList.remove("hidden");
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                const footerBlock = document.getElementById('footer');
-                if (footerBlock) { footerBlock.classList.add('visible'); }
-            }, 500); 
+            setTimeout(() => { document.getElementById('footer').classList.add('visible'); }, 500); 
         });
     </script>
 </body>
