@@ -10,13 +10,13 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static frontend assets if required
+// Serve static frontend assets directly
 app.use(express.static(path.join(__dirname)));
 
 // 🌟 DYNAMIC MULTI-LEVEL STORAGE CONFIGURATION ENGINE
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        // Frontend hidden payload field-la irundhu vara data parameters
+        // Frontend hidden payload field-la irundhu vara dynamic variables
         const department = req.body.department_name || 'General_Pool';
         const academicYear = req.body.academic_year || 'Unknown_Year';
         
@@ -24,10 +24,10 @@ const storage = multer.diskStorage({
         const deptFolder = department.replace(/[^a-zA-Z0-9]/g, "_");
         const yearFolder = academicYear.replace(/[^a-zA-Z0-9]/g, "_");
         
-        // Final targeted storage path allocation target (uploads/B_Sc__Computer_Science/III_Year)
+        // Final targeted storage path allocation layout (uploads/B_Sc__Computer_Science/III_Year)
         const targetPath = path.join(__dirname, 'uploads', deptFolder, yearFolder);
 
-        // Sub-directories deep validation shield loop check. Illana auto-create aagum!
+        // Sub-directories deep validation shield check. Folder illana auto-create aagum!
         if (!fs.existsSync(targetPath)) {
             fs.mkdirSync(targetPath, { recursive: true });
         }
@@ -55,8 +55,8 @@ app.post('/api/upload-certificate', upload.single('certificate_file'), (req, res
         if (!req.file) {
             return res.status(400).send('Error: System failed to receive uploaded file binary stream data package.');
         }
-        // Success payload text returns back to client fetch framework pipelines
-        res.status(200).send('Cloud hosting encryption pipeline completely successful.');
+        // Success text back to fetch client framework pipelines
+        res.status(200).send('Hosted successfully to secure multi-level structure nodes.');
     } catch (err) {
         res.status(500).send('Internal Server Processing Crash Error: ' + err.message);
     }
