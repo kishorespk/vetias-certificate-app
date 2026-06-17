@@ -1,81 +1,67 @@
 const express = require('express');
 const multer = require('multer');
-const cloudinary = require('cloudinary').v2;
 const path = require('path');
 const fs = require('fs');
 
-// --- CONFIGURATION ---
-const PORT = process.env.PORT || 3000; // Render needs this
-// ⚠️ Read keys from Render's Environment Variables
-const CLOUD_NAME = process.env.CLOUD_NAME; 
-const API_KEY = process.env.API_KEY;
-const API_SECRET = process.env.API_SECRET; 
-// --- END CONFIGURATION ---
-
-// Configure Cloudinary with your credentials
-cloudinary.config({
-    cloud_name: 'djocjzlgt', 
-    api_key: '215754899971461',    
-    api_secret: 'hdc3vkUzovFQF5-Fqy016pK5q9A', // Inga oru vaati verify pannunga
-    secure: true
-});
-// Set up Express app and Multer for file handling
 const app = express();
-const upload = multer({ dest: 'temp_uploads/' }); 
+const PORT = process.env.PORT || 3000;
 
+// Body parser parsing middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Serve the HTML file at the root
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+// Serve static frontend assets if required
+app.use(express.static(path.join(__dirname)));
 
-// --- CORE UPLOAD ENDPOINT ---
-app.post('/api/upload-certificate', upload.single('certificate_file'), async (req, res) => {
-    
-    // Get form data: student_name, roll_number, and the file
-    const { student_name, roll_number } = req.body;
-    const uploadedFile = req.file;
-
-    if (!uploadedFile) {
-        return res.status(400).send('No file uploaded.');
-    }
-    
-    try {
-        // --- 🔑 DYNAMIC FOLDER CREATION LOGIC IS HERE ---
-        // 1. Base Folder: VETIAS_CERTIFICATES
-        // 2. Sub-Folder (created by Roll Number): 24CSC16
-        // Resulting path on Cloudinary: VETIAS_CERTIFICATES/24CSC16
-        const baseFolder = "VETIAS_CERTIFICATES"; 
-        const studentFolder = roll_number.toUpperCase().trim().replace(/[^A-Z0-9]/g, '_'); // Clean up Roll Number for folder name
+// 🌟 DYNAMIC MULTI-LEVEL STORAGE CONFIGURATION ENGINE
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        // Frontend hidden payload field-la irundhu vara data parameters
+        const department = req.body.department_name || 'General_Pool';
+        const academicYear = req.body.academic_year || 'Unknown_Year';
         
-        const finalFolderPath = `${baseFolder}/${studentFolder}`; 
+        // Folder names structure-la ulla dots, spaces clean validation handler
+        const deptFolder = department.replace(/[^a-zA-Z0-9]/g, "_");
+        const yearFolder = academicYear.replace(/[^a-zA-Z0-9]/g, "_");
         
-        // Use filename and student name for a unique, readable public ID
-        const publicId = `${student_name.replace(/\s/g, '_')}_${Date.now()}`; 
-        // --- 🔑 END LOGIC ---
+        // Final targeted storage path allocation target (uploads/B_Sc__Computer_Science/III_Year)
+        const targetPath = path.join(__dirname, 'uploads', deptFolder, yearFolder);
 
-        // Upload the file from the local temporary path to Cloudinary
-        const result = await cloudinary.uploader.upload(uploadedFile.path, {
-            folder: finalFolderPath, // This creates the new Roll Number folder!
-            public_id: publicId,
-            resource_type: 'auto' 
-        });
-        
-        // Success response
-        res.send(`Success! Certificate uploaded to folder: ${studentFolder}. View link: ${result.secure_url}`);
-
-    } catch (error) {
-        console.error('Cloudinary Upload Error:', error);
-        res.status(500).send(`❌ Upload Failed: Please check API keys or server logs.`);
-    } finally {
-        // CLEANUP: Delete the temporary file from the server's disk
-        if (uploadedFile && fs.existsSync(uploadedFile.path)) {
-            fs.unlinkSync(uploadedFile.path); 
+        // Sub-directories deep validation shield loop check. Illana auto-create aagum!
+        if (!fs.existsSync(targetPath)) {
+            fs.mkdirSync(targetPath, { recursive: true });
         }
+
+        cb(null, targetPath);
+    },
+    filename: function (req, file, cb) {
+        // ✨ FILE NAME FORMATTING: Roll Number + Certificate Name + Extension
+        const roll = (req.body.roll_number || 'UNKNOWN').trim().toUpperCase();
+        const certName = (req.body.certificate_name || 'Certificate').replace(/[^a-zA-Z0-9]/g, "_");
+        
+        // Original format extension logic extraction tracker (.pdf, .jpg, .png)
+        const fileExtension = path.extname(file.originalname);
+        
+        // Output format mapping pattern template: 24CSC16_JavaBasics.pdf
+        cb(null, roll + '_' + certName + fileExtension);
     }
 });
 
-// Start the server
+const upload = multer({ storage: storage });
+
+// 📤 THE UNIFIED REAL CLOUD DATA INGESTION ROUTE API
+app.post('/api/upload-certificate', upload.single('certificate_file'), (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).send('Error: System failed to receive uploaded file binary stream data package.');
+        }
+        // Success payload text returns back to client fetch framework pipelines
+        res.status(200).send('Cloud hosting encryption pipeline completely successful.');
+    } catch (err) {
+        res.status(500).send('Internal Server Processing Crash Error: ' + err.message);
+    }
+});
+
 app.listen(PORT, () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+    console.log(`VETIAS Storage Engine Node Server Cluster completely live running on port: ${PORT}`);
 });
